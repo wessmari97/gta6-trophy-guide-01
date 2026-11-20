@@ -1,0 +1,40 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.5; }
+.hero { background: linear-gradient(135deg, #7c3aed 0%, #db2777 55%, #f59e0b 100%); color: #fff; padding: 40px 24px 28px; }
+.hero h1 { margin: 0 0 8px; font-size: 42px; line-height: 1.05; letter-spacing: -1px; }
+.eyebrow { margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: 2px; opacity: .9; }
+.sub { margin: 0 0 18px; max-width: 720px; font-size: 17px; opacity: .95; }
+.progress-wrap { max-width: 720px; }
+.progress-bar { height: 12px; background: rgba(255,255,255,.3); border-radius: 999px; overflow: hidden; }
+.progress-bar div { height: 100%; background: #fff; border-radius: 999px; transition: width .3s; }
+#progress { margin: 8px 0 0; font-weight: 700; }
+main { max-width: 980px; margin: 0 auto; padding: 24px 16px 48px; }
+.roadmap { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+.roadmap h2 { margin: 0 0 10px; font-size: 20px; }
+.roadmap ol { margin: 0; padding-left: 22px; }
+.roadmap li { margin: 8px 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+.controls input[type="search"] { flex: 1 1 220px; padding: 9px 12px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #e2e8f0; font-size: 15px; }
+.controls select { padding: 8px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #e2e8f0; }
+.controls .check { display: flex; gap: 6px; align-items: center; font-size: 14px; }
+.controls button, .controls .import { padding: 9px 14px; border-radius: 8px; border: 1px solid #7c3aed; background: #7c3aed; color: #fff; font-weight: 700; cursor: pointer; font-size: 14px; }
+.controls .import input { display: none; }
+.count { color: #94a3b8; font-size: 14px; margin: 4px 0 14px; }
+.list { display: grid; gap: 12px; }
+.card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 16px 18px; }
+.card.earned { border-color: #22c55e; }
+.card .top { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.card h3 { margin: 0; font-size: 18px; }
+.badge { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; border-radius: 999px; background: #334155; }
+.badge.platinum { background: #e0e7ff; color: #1e1b4b; }
+.badge.gold { background: #fbbf24; color: #451a03; }
+.badge.silver { background: #cbd5e1; color: #0f172a; }
+.badge.bronze { background: #b45309; color: #fff7ed; }
+.miss { font-size: 12px; font-weight: 700; color: #fca5a5; text-transform: uppercase; letter-spacing: 1px; }
+.card .desc { margin: 8px 0; color: #cbd5e1; font-style: italic; }
+.card .guide { margin: 8px 0; }
+.card .source { margin: 8px 0 0; color: #94a3b8; font-size: 13px; }
+.card label.tick { display: flex; gap: 8px; align-items: center; margin-top: 12px; font-weight: 700; cursor: pointer; }
+.card label.tick input { width: 18px; height: 18px; }
+footer { margin-top: 28px; color: #94a3b8; font-size: 13px; }
+@media (max-width: 640px) { .hero h1 { font-size: 30px; } }

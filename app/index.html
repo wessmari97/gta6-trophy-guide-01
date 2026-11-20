@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Trophy Guide — GTA VI, all 55 trophies</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <p class="eyebrow">GRAND THEFT AUTO VI · PLAYSTATION 5 · OFFLINE GUIDE</p>
+  <h1>Leonida Trophy Guide</h1>
+  <p class="sub">Every one of the 55 official trophies, with a guide in plain words, a checklist that saves in your browser, and a roadmap to the platinum.</p>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div id="bar" style="width:0%"></div></div>
+    <p id="progress">0 of 55 earned · 0%</p>
+  </div>
+</header>
+<main>
+<section class="roadmap" aria-label="Roadmap to the platinum">
+  <h2>Roadmap to the platinum</h2>
+  <ol>
+    <li><strong>1 · Play the story.</strong> Chapters 1–4 and the finale earn 12 trophies on their own, including both golds' story half. Do the missable moments when they appear — they are flagged below.</li>
+    <li><strong>2 · Stranger strands.</strong> Finish the mission chains for Andy, Kenton, Billy, Randy and Tyrone, plus three more, for the Strangers &amp; Freaks silver.</li>
+    <li><strong>3 · Activities.</strong> Races, fishing, the shooting range, drone races, the arcade — one of each, then golds and wins where the guide asks.</li>
+    <li><strong>4 · Collectibles &amp; grinds.</strong> Cards, meditation spots, vehicles, garages, WAiNK spots, stunts and challenges. Sweep the map region by region and tick them off here.</li>
+    <li><strong>5 · 100% completion.</strong> Check the in-game stats for whatever is left, then A Long Road and the platinum pop together.</li>
+  </ol>
+</section>
+<section class="controls" aria-label="Filters">
+  <input id="search" type="search" placeholder="Search a trophy or guide…" aria-label="Search trophies">
+  <label>Grade <select id="grade"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
+  <label>Kind <select id="kind"><option value="all">All kinds</option><option value="story">Story</option><option value="side">Side &amp; missions</option><option value="collectible">Collectibles</option><option value="grind">Grinds</option><option value="completion">100% completion</option><option value="platinum">Platinum</option></select></label>
+  <label class="check"><input id="missable" type="checkbox"> Missable only</label>
+  <label class="check"><input id="unearned" type="checkbox"> Unearned only</label>
+  <label class="check"><input id="spoilers" type="checkbox"> Hide story spoilers</label>
+  <button id="export" type="button">Export progress</button>
+  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
+</section>
+<p id="count" class="count"></p>
+<section id="list" class="list" aria-live="polite"></section>
+<footer>
+  <p>Sources: every trophy's name, description and grade come from the official trophy list as printed by Exophase. Each guide is written in this project's own words from that description; where a step is not in the official description, the guide says so instead of inventing a location. Works fully offline — no network, no account, no uploads. Progress is stored only in your browser.</p>
+</footer>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>

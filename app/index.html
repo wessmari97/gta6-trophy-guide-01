@@ -3,52 +3,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Trophy Guide — GTA VI, all 55 trophies</title>
+<title>Leonida Trophy Guide — GTA VI</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="hero">
-  <p class="eyebrow">GRAND THEFT AUTO VI · PLAYSTATION 5 · OFFLINE GUIDE</p>
-  <h1>Leonida Trophy Guide</h1>
-  <p class="sub">Every one of the 55 official trophies, with a guide in plain words, a checklist that saves in your browser, and a roadmap to the platinum.</p>
+  <div class="hero-text">
+    <p class="kicker">Grand Theft Auto VI · PlayStation 5</p>
+    <h1>Leonida Trophy Guide</h1>
+    <p class="lede">All 55 official trophies, with a guide for each one, a checklist that remembers your progress, and a roadmap to the platinum.</p>
+  </div>
   <div class="progress-wrap">
-    <div class="progress-bar"><div id="bar" style="width:0%"></div></div>
-    <p id="progress">0 of 55 earned · 0%</p>
+    <div class="progress-line"><strong id="earned-count">0</strong> of <strong>55</strong> earned</div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <p id="progress-note">0 to the platinum</p>
   </div>
 </header>
+
 <main>
-<section class="roadmap" aria-label="Roadmap to the platinum">
-  <h2>Roadmap to the platinum</h2>
-  <ol>
-    <li><strong>1 · Play the story.</strong> Chapters 1–4 and the finale earn 14 trophies on their own, including the story gold. Do the missable moments when they appear — they are flagged below.</li>
-    <li><strong>2 · Stranger strands.</strong> Finish the mission chains for Andy, Kenton, Billy, Randy and Tyrone, plus three more, for the Strangers &amp; Freaks silver.</li>
-    <li><strong>3 · Activities.</strong> Races, fishing, the shooting range, drone races, the arcade — one of each, then golds and wins where the guide asks.</li>
-    <li><strong>4 · Collectibles &amp; grinds.</strong> Cards, meditation spots, vehicles, garages, WAiNK spots, stunts and challenges. Sweep the map region by region and tick them off here.</li>
-    <li><strong>5 · 100% completion.</strong> Check the in-game stats for whatever is left, then A Long Road and the platinum pop together.</li>
-  </ol>
-</section>
-<section class="controls" aria-label="Filters">
-  <input id="search" type="search" placeholder="Search a trophy or guide…" aria-label="Search trophies">
-  <label>Grade <select id="grade"><option value="all">All grades</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <label>Kind <select id="kind"><option value="all">All kinds</option><option value="story">Story</option><option value="side">Side &amp; missions</option><option value="collectible">Collectibles</option><option value="grind">Grinds</option><option value="completion">100% completion</option><option value="platinum">Platinum</option></select></label>
-  <label class="check"><input id="missable" type="checkbox"> Missable only</label>
-  <label class="check"><input id="unearned" type="checkbox"> Unearned only</label>
-  <label class="check"><input id="spoilers" type="checkbox"> Hide story spoilers</label>
-  <button id="export" type="button">Export progress</button>
-  <button id="reset" type="button">Reset progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</section>
-<p id="count" class="count"></p>
-<section id="nextup" class="nextup" aria-label="Next up">
-  <h2>Next up</h2>
-  <p class="nextup-sub">Your next five story trophies, in order — tick them off as you play and the list moves on.</p>
-  <ol id="nextup-list"></ol>
-</section>
-<section id="list" class="list" aria-live="polite"></section>
-<footer>
-  <p>Sources: every trophy's name, description and grade come from the official trophy list as printed by Exophase. Each guide is written in this project's own words from that description; where a step is not in the official description, the guide says so instead of inventing a location. Works fully offline — no network, no account, no uploads. Progress is stored only in your browser.</p>
-</footer>
+  <section class="roadmap" aria-label="Roadmap to the platinum">
+    <h2>Road to the platinum</h2>
+    <p class="roadmap-intro">Five phases, in the order that works. The story earns 14 trophies on its own; the rest come from stranger strands, activities, collectibles and the long grinds.</p>
+    <ol class="phases">
+      <li>
+        <h3>Phase 1 — Play the story</h3>
+        <p>Chapters 1 to 4, the named missions and the finale. 14 trophies, none of them missable except the two choice moments — do those with care, or replay the mission afterwards.</p>
+      </li>
+      <li>
+        <h3>Phase 2 — Stranger strands</h3>
+        <p>Finish the mission chains for Andy, Kenton, Billy, Randy and Tyrone, plus Bret's hunt. Eight finished strands earn the Strangers &amp; Freaks silver.</p>
+      </li>
+      <li>
+        <h3>Phase 3 — Activities</h3>
+        <p>Try every activity once, then chase the wins: 20 different races, gold medals at the shooting range, drone races at every location, and Cal's fishing challenge.</p>
+      </li>
+      <li>
+        <h3>Phase 4 — Collectibles and the map</h3>
+        <p>Meditation spots, card sets, 100 vehicles, every garage, and the whole of Leonida explored. Sweep region by region so nothing is left behind.</p>
+      </li>
+      <li>
+        <h3>Phase 5 — Grinds and 100%</h3>
+        <p>250 stunts, 100 WAiNK It locations, $250,000 of Marked Bills laundered, $100,000 spent — then 100% completion, and the platinum pops.</p>
+      </li>
+    </ol>
+    <p class="missable-note">⚠ 10 trophies are missable: single moments in missions or the open world. They are flagged below — do them while the chance is open, or replay the mission from the pause menu.</p>
+  </section>
+
+  <section class="controls" aria-label="Filters and progress tools">
+    <label>Search <input id="search" type="search" placeholder="Search name or description…"></label>
+    <label>Grade
+      <select id="grade">
+        <option value="all">All grades</option>
+        <option value="platinum">Platinum</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+      </select>
+    </label>
+    <label>Kind
+      <select id="kind">
+        <option value="all">All kinds</option>
+        <option value="story">Story</option>
+        <option value="side">Stranger strands &amp; side</option>
+        <option value="collectible">Collectibles</option>
+        <option value="grind">Grinds</option>
+        <option value="completion">Completion</option>
+        <option value="platinum">Platinum</option>
+      </select>
+    </label>
+    <label class="check"><input id="missable" type="checkbox"> Missable only</label>
+    <label class="check"><input id="unearned" type="checkbox"> Unearned only</label>
+    <label class="check"><input id="spoiler" type="checkbox"> Hide spoilers (story trophies hidden until earned)</label>
+    <div class="tools">
+      <button id="export" type="button">Export progress</button>
+      <label class="import-btn">Import progress <input id="import" type="file" accept="application/json"></label>
+      <button id="reset" type="button">Reset progress</button>
+    </div>
+  </section>
+
+  <section class="nextup" aria-label="Next up">
+    <h2>Next up</h2>
+    <p>The next story trophies to earn, in order:</p>
+    <ol id="nextup-list"></ol>
+  </section>
+
+  <p id="count-line" role="status"></p>
+  <section class="list" id="list" aria-label="Trophy list"></section>
 </main>
+
+<footer>
+  <p>Trophy names, descriptions and grades are the official list as printed by Exophase. Guides are written for this guide from those descriptions; where a step is not in the official description, the guide says so instead of inventing a place. No Rockstar logo or official artwork is used. Works fully offline.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>

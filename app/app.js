@@ -1,128 +1,161 @@
 // Leonida Trophy Guide: a checklist over all 55 official GTA VI trophies.
-// Progress is stored only in this browser (localStorage); export and
-// import move it as JSON. Spoiler mode hides story trophies until earned.
-const KEY = "leonida-trophy-guide-v1";
-const list = document.getElementById("list");
-const search = document.getElementById("search");
-const gradeSel = document.getElementById("grade");
-const kindSel = document.getElementById("kind");
-const missableBox = document.getElementById("missable");
-const unearnedBox = document.getElementById("unearned");
-const spoilerBox = document.getElementById("spoilers");
-let earned = new Set(JSON.parse(localStorage.getItem(KEY) ?? "[]"));
-const doc = await (await fetch("data/trophies.json")).json();
+// Progress lives only in this browser (localStorage) and can be exported
+// or imported as JSON. Spoiler mode hides story trophies until earned.
+const STORAGE_KEY = "leonida-trophy-guide-v1";
+const TOTAL = 55;
 
-function save() {
-  localStorage.setItem(KEY, JSON.stringify([...earned]));
+const listEl = document.getElementById("list");
+const searchEl = document.getElementById("search");
+const gradeEl = document.getElementById("grade");
+const kindEl = document.getElementById("kind");
+const missableEl = document.getElementById("missable");
+const unearnedEl = document.getElementById("unearned");
+const spoilerEl = document.getElementById("spoiler");
+const countLine = document.getElementById("count-line");
+const earnedCount = document.getElementById("earned-count");
+const progressFill = document.getElementById("progress-fill");
+const progressNote = document.getElementById("progress-note");
+
+let earned = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "[]"));
+const data = await (await fetch("data/trophies.json")).json();
+
+function store() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...earned]));
 }
 
-function hidden(t) {
-  return spoilerBox.checked && t.secret && !earned.has(t.name);
+function isHidden(trophy) {
+  return spoilerEl.checked && trophy.secret && !earned.has(trophy.name);
+}
+
+function passesFilters(trophy) {
+  if (gradeEl.value !== "all" && trophy.grade !== gradeEl.value) return false;
+  if (kindEl.value !== "all" && trophy.category !== kindEl.value) return false;
+  if (missableEl.checked && !trophy.missable) return false;
+  if (unearnedEl.checked && earned.has(trophy.name)) return false;
+  const query = searchEl.value.trim().toLowerCase();
+  if (query) {
+    const haystack = (trophy.name + " " + trophy.description + " " + trophy.guide).toLowerCase();
+    if (!haystack.includes(query)) return false;
+  }
+  return true;
+}
+
+function makeCard(trophy) {
+  const hidden = isHidden(trophy);
+  const card = document.createElement("article");
+  card.className = "card" + (earned.has(trophy.name) ? " earned" : "");
+
+  const head = document.createElement("div");
+  head.className = "card-head";
+  const title = document.createElement("h3");
+  title.textContent = hidden ? "Story trophy — hidden until earned" : trophy.name;
+  const tag = document.createElement("span");
+  tag.className = "grade-tag " + trophy.grade;
+  tag.textContent = trophy.grade;
+  head.append(title, tag);
+  if (trophy.missable) {
+    const flag = document.createElement("span");
+    flag.className = "miss-tag";
+    flag.textContent = "Missable";
+    head.append(flag);
+  }
+
+  const desc = document.createElement("p");
+  desc.className = "desc";
+  desc.textContent = hidden ? "Play the story to reveal it." : trophy.description;
+
+  const guide = document.createElement("p");
+  guide.className = "guide";
+  guide.textContent = hidden ? "" : trophy.guide;
+
+  const source = document.createElement("p");
+  source.className = "source";
+  source.textContent = "Source: " + trophy.source;
+
+  const toggle = document.createElement("label");
+  toggle.className = "earned-toggle";
+  const box = document.createElement("input");
+  box.type = "checkbox";
+  box.checked = earned.has(trophy.name);
+  box.addEventListener("change", () => {
+    if (box.checked) earned.add(trophy.name);
+    else earned.delete(trophy.name);
+    store();
+    render();
+  });
+  toggle.append(box, document.createTextNode(earned.has(trophy.name) ? "Earned" : "Mark as earned"));
+
+  card.append(head, desc, guide, source, toggle);
+  return card;
+}
+
+function renderNextUp() {
+  const list = document.getElementById("nextup-list");
+  list.replaceChildren();
+  const upcoming = data.trophies
+    .filter((t) => t.category === "story" && !earned.has(t.name))
+    .slice(0, 5);
+  if (upcoming.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "Story complete — every story trophy earned.";
+    list.append(item);
+    return;
+  }
+  for (const trophy of upcoming) {
+    const item = document.createElement("li");
+    const name = document.createElement("strong");
+    name.textContent = isHidden(trophy) ? "Story trophy — hidden until earned" : trophy.name;
+    item.append(name);
+    if (!isHidden(trophy)) item.append(document.createTextNode(" — " + trophy.description));
+    list.append(item);
+  }
 }
 
 function render() {
-  const q = search.value.trim().toLowerCase();
-  list.replaceChildren();
+  listEl.replaceChildren();
   let shown = 0;
-  for (const t of doc.trophies) {
-    if (gradeSel.value !== "all" && t.grade !== gradeSel.value) continue;
-    if (kindSel.value !== "all" && t.category !== kindSel.value) continue;
-    if (missableBox.checked && !t.missable) continue;
-    if (unearnedBox.checked && earned.has(t.name)) continue;
-    if (q && !(t.name + " " + t.guide + " " + t.description).toLowerCase().includes(q)) continue;
+  for (const trophy of data.trophies) {
+    if (!passesFilters(trophy)) continue;
     shown++;
-    const card = document.createElement("article");
-    card.className = "card" + (earned.has(t.name) ? " earned" : "");
-    const top = document.createElement("div");
-    top.className = "top";
-    const h = document.createElement("h3");
-    h.textContent = hidden(t) ? "Story trophy — hidden until earned" : t.name;
-    const badge = document.createElement("span");
-    badge.className = "badge " + t.grade;
-    badge.textContent = t.grade;
-    top.append(h, badge);
-    if (t.missable) {
-      const m = document.createElement("span");
-      m.className = "miss";
-      m.textContent = "Missable";
-      top.append(m);
-    }
-    const desc = document.createElement("p");
-    desc.className = "desc";
-    desc.textContent = hidden(t) ? "Complete the story moment to reveal it." : t.description;
-    const guide = document.createElement("p");
-    guide.className = "guide";
-    guide.textContent = hidden(t) ? "" : t.guide;
-    const src = document.createElement("p");
-    src.className = "source";
-    src.textContent = "Source: " + t.source;
-    const tick = document.createElement("label");
-    tick.className = "tick";
-    const box = document.createElement("input");
-    box.type = "checkbox";
-    box.checked = earned.has(t.name);
-    box.addEventListener("change", () => {
-      if (box.checked) earned.add(t.name);
-      else earned.delete(t.name);
-      save();
-      render();
-    });
-    tick.append(box, document.createTextNode(earned.has(t.name) ? "Earned" : "Mark as earned"));
-    card.append(top, desc, guide, src, tick);
-    list.append(card);
+    listEl.append(makeCard(trophy));
   }
-  document.getElementById("count").textContent = `Showing ${shown} of ${doc.trophies.length} trophies`;
+  countLine.textContent = `Showing ${shown} of ${data.trophies.length} trophies`;
   renderNextUp();
-  const pct = Math.round((earned.size / doc.trophies.length) * 100);
-  document.getElementById("bar").style.width = pct + "%";
-  document.getElementById("progress").textContent =
-    `${earned.size} of ${doc.trophies.length} earned · ${pct}% · ${54 - earned.size + (earned.has("Vice Got a Price!") ? 1 : 0)} to the platinum`;
-}
-
-// The Next up panel: the first five story trophies not yet earned, in
-// the order they appear in the data, so a player always sees what the
-// story asks for next. Empty once every story trophy is earned.
-function renderNextUp() {
-  const ol = document.getElementById("nextup-list");
-  ol.replaceChildren();
-  const next = doc.trophies.filter((t) => t.category === "story" && !earned.has(t.name)).slice(0, 5);
-  if (next.length === 0) {
-    const li = document.createElement("li");
-    li.textContent = "Story complete — every story trophy earned.";
-    ol.append(li);
-    return;
-  }
-  for (const t of next) {
-    const li = document.createElement("li");
-    const name = document.createElement("strong");
-    name.textContent = hidden(t) ? "Story trophy — hidden until earned" : t.name;
-    li.append(name);
-    if (!hidden(t)) li.append(document.createTextNode(" — " + t.description));
-    ol.append(li);
-  }
+  const pct = Math.round((earned.size / TOTAL) * 100);
+  earnedCount.textContent = earned.size;
+  progressFill.style.width = pct + "%";
+  const remaining = TOTAL - earned.size;
+  progressNote.textContent = earned.size === TOTAL
+    ? "Platinum earned — Leonida Legend!"
+    : `${remaining} to the platinum`;
 }
 
 document.getElementById("reset").addEventListener("click", () => {
   if (!confirm("Reset all progress? Every trophy you ticked off will be unticked.")) return;
   earned = new Set();
-  save();
+  store();
   render();
 });
+
 document.getElementById("export").addEventListener("click", () => {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([JSON.stringify([...earned])], { type: "application/json" }));
-  a.download = "leonida-trophy-progress.json";
-  a.click();
+  const blob = new Blob([JSON.stringify([...earned])], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "leonida-trophy-progress.json";
+  link.click();
 });
-document.getElementById("import").addEventListener("change", async (e) => {
-  const file = e.target.files[0];
+
+document.getElementById("import").addEventListener("change", async (event) => {
+  const file = event.target.files[0];
   if (!file) return;
   earned = new Set(JSON.parse(await file.text()));
-  save();
+  store();
   render();
 });
-for (const el of [search, gradeSel, kindSel, missableBox, unearnedBox, spoilerBox]) {
+
+for (const el of [searchEl, gradeEl, kindEl, missableEl, unearnedEl, spoilerEl]) {
   el.addEventListener("input", render);
   el.addEventListener("change", render);
 }
+
 render();

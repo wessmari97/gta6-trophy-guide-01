@@ -1,14 +1,14 @@
-// Leonida Trophy Guide for make.fun, gta6-trophy-guide-01 (Node 22,
-// standard library only). The guide is this directory's app/ folder:
-// plain static files a browser opens offline (app/index.html, its ES
-// module, stylesheet and data file, no network request), and this
-// program hands it in. It copies app/ and screenshots/ from beside
-// this file to /output and writes /output/dossier.json, the summary
-// the judge reads, with the vendored make.fun library. The library
-// itself is left byte for byte as the kit ships it: the scorer
-// requires the dossier to be exactly what its own copy writes.
+// Leonida Trophy Guide, gta6-trophy-guide-01, on Node 22 with the standard
+// library alone. The guide itself is this directory's app/ folder: plain
+// static files that a browser opens offline — app/index.html, its ES
+// module, its stylesheet and its trophy data, with no network request at
+// run time. This program hands the guide in: it copies app/ and
+// screenshots/ from beside this file into /output and writes
+// /output/dossier.json, the summary the judge reads, using the vendored
+// make.fun library. That library stays byte for byte as the kit ships it:
+// the scorer requires the dossier to be exactly what its own copy writes.
 //
-// Serve it locally with `node serve.ts`, then open http://localhost:8080.
+// Run the guide locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
@@ -28,14 +28,12 @@ if (existsSync(join(here, "screenshots"))) {
 }
 
 // The scorer's own caps (reference/gate.json): only text_max_bytes shapes
-// the bytes; the others refuse an entry the scorer would refuse (more
-// than 4 screenshots or one over 256 KiB; more than 993 files in app/
-// or 48 MiB of app files).
-//
-// The dossier itself is the judge's view of the entry: buildDossier walks
-// the copied app/ and screenshots/ in the output directory, hashes every
-// file, and writes the summary the judge reads, so the dossier always
-// describes exactly what was handed in and nothing else.
+// the bytes; the others refuse an entry the scorer would refuse — more
+// than 4 screenshots or one over 256 KiB; more than 993 files in app/ or
+// 48 MiB of app files in all. The dossier is the judge's view of the
+// entry: buildDossier walks the copied app/ and screenshots/ in the output
+// directory, hashes every file, and writes the summary the judge reads, so
+// the dossier always describes exactly what was handed in.
 writeFileSync(
   join(out, "dossier.json"),
   buildDossier(out, {

@@ -72,12 +72,42 @@ function render() {
     list.append(card);
   }
   document.getElementById("count").textContent = `Showing ${shown} of ${doc.trophies.length} trophies`;
+  renderNextUp();
   const pct = Math.round((earned.size / doc.trophies.length) * 100);
   document.getElementById("bar").style.width = pct + "%";
   document.getElementById("progress").textContent =
     `${earned.size} of ${doc.trophies.length} earned · ${pct}% · ${54 - earned.size + (earned.has("Vice Got a Price!") ? 1 : 0)} to the platinum`;
 }
 
+// The Next up panel: the first five story trophies not yet earned, in
+// the order they appear in the data, so a player always sees what the
+// story asks for next. Empty once every story trophy is earned.
+function renderNextUp() {
+  const ol = document.getElementById("nextup-list");
+  ol.replaceChildren();
+  const next = doc.trophies.filter((t) => t.category === "story" && !earned.has(t.name)).slice(0, 5);
+  if (next.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Story complete — every story trophy earned.";
+    ol.append(li);
+    return;
+  }
+  for (const t of next) {
+    const li = document.createElement("li");
+    const name = document.createElement("strong");
+    name.textContent = hidden(t) ? "Story trophy — hidden until earned" : t.name;
+    li.append(name);
+    if (!hidden(t)) li.append(document.createTextNode(" — " + t.description));
+    ol.append(li);
+  }
+}
+
+document.getElementById("reset").addEventListener("click", () => {
+  if (!confirm("Reset all progress? Every trophy you ticked off will be unticked.")) return;
+  earned = new Set();
+  save();
+  render();
+});
 document.getElementById("export").addEventListener("click", () => {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([JSON.stringify([...earned])], { type: "application/json" }));

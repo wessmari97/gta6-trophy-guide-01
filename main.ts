@@ -31,6 +31,11 @@ if (existsSync(join(here, "screenshots"))) {
 // the bytes; the others refuse an entry the scorer would refuse (more
 // than 4 screenshots or one over 256 KiB; more than 993 files in app/
 // or 48 MiB of app files).
+//
+// The dossier itself is the judge's view of the entry: buildDossier walks
+// the copied app/ and screenshots/ in the output directory, hashes every
+// file, and writes the summary the judge reads, so the dossier always
+// describes exactly what was handed in and nothing else.
 writeFileSync(
   join(out, "dossier.json"),
   buildDossier(out, {

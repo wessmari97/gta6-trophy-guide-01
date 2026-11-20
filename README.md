@@ -9,7 +9,7 @@ An offline trophy guide and tracker for Grand Theft Auto VI, for make.fun's "Bui
 ## What it is
 
 - **All 55 trophies** in `app/data/trophies.json` — name, official description, grade, kind, and whether it can be missed — with a guide written in this project's own words for each one.
-- **A tracker** (`app/`): tick trophies off and they stay ticked, with a progress bar, search, filters by grade and kind, a missable-only view, and export/import of progress as JSON.
+- **A tracker** (`app/`): tick trophies off and they stay ticked, with a progress bar, search, filters by grade and kind, a missable-only view, and export/import of progress as JSON. A **Reset progress** button clears all ticks after asking for confirmation, and a **Next up** panel lists the first five unearned story trophies in order, so a player always sees what the story asks for next.
 - **A spoiler setting** that hides story trophies until you earn them, so the list is safe to browse mid-playthrough. Ten trophies are flagged missable — the moments to do while they are available, with a note to replay the mission from the pause menu if one has passed.
 - **A roadmap** in five phases: story, stranger strands, activities, collectibles and grinds, then 100% completion.
 
